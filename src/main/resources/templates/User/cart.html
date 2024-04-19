@@ -1,0 +1,58 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <title>Cart</title>
+
+</head>
+<header th:insert="blocks/header :: header"></header>
+
+<div class="container">
+    <div class="d-flex justify-content-center mb-5" style="width: 100%">
+        <h1 class="mt-3" th:text="#{'label.cart'}"></h1>
+    </div>
+
+    <div class="row mt-5 justify-content-center col-10 offset-1" th:if="${!cartList.isEmpty()}">
+        <table class="table table-bordered text-center">
+            <thead>
+            <tr>
+                <th th:text="#{label.photo}"></th>
+                <th th:text="#{label.product}"></th>
+                <th th:text="#{label.price}"></th>
+                <th th:text="#{label.qnty}"></th>
+                <th th:text="#{button.delete}"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="cart: ${cartList}">
+                <td class="align-middle text-center" style="padding: 5px!important;"><img th:src="@{${cart.shopItems.imgPath}}" style="height: 75px" alt="..."></td>
+                <td th:text="${cart.shopItems.name}" class="align-middle text-center"></td>
+                <td th:text="${cart.shopItems.price}" class="align-middle text-center"></td>
+                <td th:text="${cart.count}" class="align-middle text-center"></td>!
+                <td class="align-middle text-center">
+                    <form th:method="POST" th:action="@{/deleteCart/{id}(id=${cart.getId()})}" class="d-flex align-items-center justify-content-center">
+                        <input class="btn btn-danger" type="submit" value="-"/>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <span class="col-8 offset-4 border border-light-subtle d-flex justify-content-center" th:if="${total > 0}" >
+            <h4 th:text="#{label.total} + ': '  + ${total} + ' ' + #{label.products} + ' = ' + ${price} + '&#8376;'" class="py-3 mx-3"></h4>
+            <div class="py-3 mx-3">
+                  <a th:text="#{button.buy}" href="/order" type="button" class="btn btn-success">BUY</a>
+            </div>
+        </span>
+    </div>
+
+    <div th:if="${cartList.isEmpty()}" class="text-center py-5">
+        <h2 th:text="#{lable.cartisempty}"></h2>
+    </div>
+</div>
+

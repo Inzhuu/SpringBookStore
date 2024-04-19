@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!-- Подключите CSS Bootstrap (в заголовке документа) -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Подключите JavaScript Bootstrap и jQuery (перед закрывающим тегом </body>) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-6 offset-3">
+            <form th:action="@{'/saveitem'}" method="post">
+                <input type="hidden" name="id" th:value="${item.id}">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="item_name" th:value="${item!=null?item.name:''}">
+                    <label th:text="#{label.name}"></label>
+                </div>
+                <div class="form-group">
+                    <label th:text="#{label.price}"></label>
+                    <input type="number" class="form-control" name="item_price" th:value="${item!=null?item.price:'0'}">
+                </div>
+                <div class="form-group">
+                    <label th:text="#{label.amount}"></label>
+                    <input type="number" class="form-control" name="item_amount"
+                           th:value="${item!=null?item.amount:'0'}">
+                </div>
+                <div class="form-group">
+                    <label th:text="#{label.country}"></label>
+                    <select class="form-control" name="country_id">
+                        <option th:each="cnt : ${countries}" th:text="${cnt.name} + '/'+ ${cnt.code}" th:value="${cnt.id}" th:selected="${item!=null&&item.country!=null&&item.country.id==cnt.id}"></option>
+                    </select>
+                <div class="form-group">
+                    <button class="btn btn-success" th:text="#{button.save}"></button>
+                </div>
+                </div>
+            </form>
+
+            <form th:method="POST" th:action="@{/deleteitem/{id}(id=${item.getId()})}">
+                <input class="btn btn-danger" style="width: 14rem;" type="submit" value="Delete"/>
+            </form>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

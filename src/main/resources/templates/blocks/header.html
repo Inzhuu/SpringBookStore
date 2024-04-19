@@ -1,0 +1,66 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<meta charset="utf-8">
+
+<div th:fragment="header">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{'/'}" style="color: white;">Book-shop</a>
+
+            <ul class="navbar-nav">
+                <li class="nav-item" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')">
+                    <a class="nav-link" th:href="@{'/additem'}" style="color: white;" th:text="#{'label.addItem'}"></a>
+                </li>
+            </ul>
+
+            <div class="collapse navbar-collapse justify-content-end align d-flex align-items-center"
+                 id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <div class="d-flex mt-1 mr-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="?lng=ru" style="font-size: 12px;">RUS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="?lng=en" style="font-size: 12px;">ENG</a>
+                        </li>
+                    </div>
+
+                    <li class="nav-item dropdown ">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdown" role="button"
+                           aria-expanded="false" style="color: white;" th:text="#{'label.account'}"></a>
+                        <ul class="dropdown-menu dropdown-menu-dark bg-dark" aria-labelledby="navbarDropdown">
+                            <li sec:authorize="isAnonymous()">
+                                <a class="dropdown-item" th:href="@{'/login'}" style="color: white"
+                                   th:text="#{'label.login'}"></a>
+                            </li>
+                            <li sec:authorize="isAnonymous()">
+                                <a class="dropdown-item" th:href="@{'/register'}" style="color: white"
+                                   th:text="#{'label.register'}"></a>
+                            </li>
+                            <li sec:authorize="isAuthenticated()">
+                                <a class="dropdown-item" style="color: white" th:href="@{'/profile'}"
+                                   th:text="#{'label.profile'}"></a>
+                            </li>
+                            <li sec:authorize="isAuthenticated()">
+                                <a class="dropdown-item" href="JavaScript:void(0)"
+                                   onclick="document.getElementById('logoutFormId').submit()" style="color: white;"
+                                   th:text="#{'label.logout'}"></a>
+                            </li>
+                            <form th:action="@{'/logout'}" method="post" id="logoutFormId"
+                                  sec:authorize="isAuthenticated()"></form>
+                        </ul>
+                    </li>
+                    <li class="nav-item" ;>
+                        <a class="nav-link" th:href="@{'/cart'}" sec:authorize="isAuthenticated()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                 class="bi bi-cart" style="color: white" viewBox="0 0 16 16">
+                                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+</html>

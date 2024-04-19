@@ -1,0 +1,46 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!-- Подключите CSS Bootstrap (в заголовке документа) -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Подключите JavaScript Bootstrap и jQuery (перед закрывающим тегом </body>) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <title>Home page</title>
+
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+<div class="container-fluid m-0">
+    <div class="row">
+
+
+<!--         <form th:action="@{'/additem'}" method="post">-->
+        <div th:each="it:${tovary}">
+            <div class="card text-center ml-4 mt-4 mb-4"
+                 style="width: 12rem; display: flex; flex-direction: column; align-items: stretch;">
+                <div class="img-wrapper p-3">
+                    <a th:href="@{'/details/' + ${it.id}}">
+                        <img th:src="${it.imgPath}" class="card-img-top" alt="">
+                    </a>
+                </div>
+                <div class="card-body d-flex flex-column p-0 pt-1">
+                    <h5 class="card-title mb-1" th:text="${it.name}"></h5>
+                    <p class="mb-1" th:text="${it.author}"></p>
+                    <p class="mb-1 text-muted" th:each="cat : ${it.categories}" th:text="${cat.name}" style="display: block;"></p>
+
+                    <div class="card-footer text-body-secondary d-flex justify-content-between align-items-center ">
+                        <h6 class="ml-1" th:text="${it.price + '₸'}"></h6>
+                        <a th:href="@{'/cardDescription/' + ${it.id}}" class="btn btn-primary">More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
